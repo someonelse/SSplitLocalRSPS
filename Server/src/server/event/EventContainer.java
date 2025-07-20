@@ -1,18 +1,16 @@
 package server.event;
 
-
 /**
  * Holds extra data for an event (for example the tick time etc).
  * 
  * @author Graham
- * 
  */
 public class EventContainer {
 
 	/**
 	 * The actual event.
 	 */
-	private Event event;
+	private final Event event;
 
 	/**
 	 * A flag which specifies if the event is running;
@@ -27,15 +25,15 @@ public class EventContainer {
 	/**
 	 * The tick time in milliseconds.
 	 */
-	private int tick;
+	private final int tick;
 
 	/**
 	 * The event container.
 	 * 
-	 * @param evt
-	 * @param tick
+	 * @param evt  The event to wrap.
+	 * @param tick The delay between executions in milliseconds.
 	 */
-	protected EventContainer(Event evt, int tick) {
+	protected EventContainer(final Event evt, final int tick) {
 		this.tick = tick;
 		this.event = evt;
 		this.isRunning = true;
@@ -54,7 +52,7 @@ public class EventContainer {
 	/**
 	 * Gets the last run time.
 	 * 
-	 * @return
+	 * @return Last time this event ran (in ms).
 	 */
 	public long getLastRun() {
 		return this.lastRun;
@@ -63,7 +61,7 @@ public class EventContainer {
 	/**
 	 * Returns the tick time.
 	 * 
-	 * @return
+	 * @return The tick interval in ms.
 	 */
 	public int getTick() {
 		return this.tick;
@@ -72,7 +70,7 @@ public class EventContainer {
 	/**
 	 * Returns the is running flag.
 	 * 
-	 * @return
+	 * @return Whether the event is still active.
 	 */
 	public boolean isRunning() {
 		return this.isRunning;
@@ -84,5 +82,4 @@ public class EventContainer {
 	public void stop() {
 		this.isRunning = false;
 	}
-
 }
