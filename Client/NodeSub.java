@@ -2,15 +2,12 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-
 public class NodeSub extends Node {
 
-    public final void unlinkSub()
-    {
-        if(nextNodeSub == null)
-        {
-        } else
-        {
+    public final void unlinkSub() {
+        if (nextNodeSub == null) {
+            // Do nothing
+        } else {
             nextNodeSub.prevNodeSub = prevNodeSub;
             prevNodeSub.nextNodeSub = nextNodeSub;
             prevNodeSub = null;
@@ -18,8 +15,7 @@ public class NodeSub extends Node {
         }
     }
 
-    public NodeSub()
-    {
+    public NodeSub() {
     }
 
     public NodeSub prevNodeSub;
