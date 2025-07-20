@@ -4,44 +4,45 @@ import server.model.players.Client;
 import server.model.players.PacketType;
 
 /**
- * Change appearance
- **/
+ * Handles changing player's appearance (e.g., gender, body, color customization).
+ */
 public class ChangeAppearance implements PacketType {
 
-	@Override
-	public void processPacket(Client c, int packetType, int packetSize) {
-		int gender = c.getInStream().readSignedByte();
-		int head = c.getInStream().readSignedByte();
-		int jaw = c.getInStream().readSignedByte();
-		int torso = c.getInStream().readSignedByte();
-		int arms = c.getInStream().readSignedByte();
-		int hands = c.getInStream().readSignedByte();
-		int legs = c.getInStream().readSignedByte();
-		int feet = c.getInStream().readSignedByte();
-		int hairColour = c.getInStream().readSignedByte();
-		int torsoColour = c.getInStream().readSignedByte();
-		int legsColour = c.getInStream().readSignedByte();
-		int feetColour = c.getInStream().readSignedByte();
-		int skinColour = c.getInStream().readSignedByte();
-		
-		if (c.canChangeAppearance) { 
-			c.playerAppearance[0] = gender; // gender
-			c.playerAppearance[1] = head; // head
-			c.playerAppearance[2] = torso;// Torso
-			c.playerAppearance[3] = arms; // arms
-			c.playerAppearance[4] = hands; // hands
-			c.playerAppearance[5] = legs; // legs
-			c.playerAppearance[6] = feet; // feet
-			c.playerAppearance[7] = jaw; // beard
-			c.playerAppearance[8] = hairColour; // hair colour
-			c.playerAppearance[9] = torsoColour; // torso colour
-			c.playerAppearance[10] = legsColour; // legs colour
-			c.playerAppearance[11] = feetColour; // feet colour
-			c.playerAppearance[12] = skinColour; // skin colour
+    @Override
+    public void processPacket(Client c, int packetType, int packetSize) {
+        int gender       = c.getInStream().readSignedByte();
+        int head         = c.getInStream().readSignedByte();
+        int jaw          = c.getInStream().readSignedByte();
+        int torso        = c.getInStream().readSignedByte();
+        int arms         = c.getInStream().readSignedByte();
+        int hands        = c.getInStream().readSignedByte();
+        int legs         = c.getInStream().readSignedByte();
+        int feet         = c.getInStream().readSignedByte();
+        int hairColour   = c.getInStream().readSignedByte();
+        int torsoColour  = c.getInStream().readSignedByte();
+        int legsColour   = c.getInStream().readSignedByte();
+        int feetColour   = c.getInStream().readSignedByte();
+        int skinColour   = c.getInStream().readSignedByte();
 
-			c.getPA().removeAllWindows();
-			c.getPA().requestUpdates();
-			c.canChangeAppearance = false;
-		}	
-	}	
+        if (c.canChangeAppearance) {
+            c.playerAppearance[0]  = gender;       // Gender
+            c.playerAppearance[1]  = head;         // Head
+            c.playerAppearance[2]  = torso;        // Torso
+            c.playerAppearance[3]  = arms;         // Arms
+            c.playerAppearance[4]  = hands;        // Hands
+            c.playerAppearance[5]  = legs;         // Legs
+            c.playerAppearance[6]  = feet;         // Feet
+            c.playerAppearance[7]  = jaw;          // Beard
+            c.playerAppearance[8]  = hairColour;   // Hair color
+            c.playerAppearance[9]  = torsoColour;  // Torso color
+            c.playerAppearance[10] = legsColour;   // Legs color
+            c.playerAppearance[11] = feetColour;   // Feet color
+            c.playerAppearance[12] = skinColour;   // Skin color
+
+            c.getPA().removeAllWindows();          // Close appearance change UI
+            c.getPA().requestUpdates();            // Request appearance update
+            c.canChangeAppearance = false;         // Disallow further changes until reset
+        }
+    }
 }
+
