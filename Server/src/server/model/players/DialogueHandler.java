@@ -167,7 +167,7 @@ public class DialogueHandler {
 	 */
 	
 	private void sendNpcChat1(String s) {
-		
+		// Empty or to be implemented
 	}
 	
 	private void sendNpcChat4(String s, String s1, String s2, String s3, int ChatNpc, String name) {
@@ -182,7 +182,7 @@ public class DialogueHandler {
 	}
 	
 	/*
-	 * Player Chating Back
+	 * Player Chatting Back
 	 */
 	
 	private void sendPlayerChat1(String s) {
