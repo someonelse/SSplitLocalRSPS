@@ -8,32 +8,35 @@ import java.util.Date;
 import server.util.SimpleTimer;
 
 /**
+ * Custom logger that prepends a timestamp prefix to each log message.
+ * Optionally detects debug messages with a special format.
  * 
  * @author nick
  */
 public class Logger extends PrintStream {
 
-	private DateFormat dateFormat = new SimpleDateFormat();
-	private Date cachedDate = new Date();
-	private SimpleTimer refreshTimer = new SimpleTimer();
+    private DateFormat dateFormat = new SimpleDateFormat();
+    private Date cachedDate = new Date();
+    private SimpleTimer refreshTimer = new SimpleTimer();
 
-	public Logger(PrintStream out) {
-		super(out);
-	}
+    public Logger(PrintStream out) {
+        super(out);
+    }
 
-	@Override
-	public void print(String str) {
-		if (str.startsWith("debug:"))
-			super.print("[" + getPrefix() + "] DEBUG: " + str.substring(6));
-		else
-			super.print("[" + getPrefix() + "]: " + str);
-	}
+    @Override
+    public void print(String str) {
+        if (str.startsWith("debug:")) {
+            super.print("[" + getPrefix() + "] DEBUG: " + str.substring(6));
+        } else {
+            super.print("[" + getPrefix() + "]: " + str);
+        }
+    }
 
-	private String getPrefix() {
-		if (refreshTimer.elapsed() > 1000) {
-			refreshTimer.reset();
-			cachedDate = new Date();
-		}
-		return dateFormat.format(cachedDate);
-	}
+    private String getPrefix() {
+        if (refreshTimer.elapsed() > 1000) {
+            refreshTimer.reset();
+            cachedDate = new Date();
+        }
+        return dateFormat.format(cachedDate);
+    }
 }
