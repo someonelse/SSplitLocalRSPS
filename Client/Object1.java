@@ -1,13 +1,10 @@
 // Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) 
+// Decompiler options: packimports(3)
 
+public final class Object1 {
 
-public final class Object1
-{
-
-	public Object1()
-	{
+	public Object1() {
 	}
 
 	int anInt273;
