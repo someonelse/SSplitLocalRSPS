@@ -1,15 +1,39 @@
 package server.model.items;
 
-public class ItemList {
-	public int itemId;
-	public String itemName;
-	public String itemDescription;
-	public double ShopValue;
-	public double LowAlch;
-	public double HighAlch;
-	public int[] Bonuses = new int[100];
+import java.util.Arrays;
 
-	public ItemList(int _itemId) {
-		itemId = _itemId;
-	}
+/**
+ * Represents an item in the game with its attributes and bonuses.
+ */
+public class ItemList {
+
+    public int itemId;
+    public String itemName;
+    public String itemDescription;
+    public double shopValue;
+    public double lowAlch;
+    public double highAlch;
+    public int[] bonuses = new int[100];
+
+    /**
+     * Constructs an item list entry with a specified item ID.
+     * 
+     * @param itemId the unique identifier of the item
+     */
+    public ItemList(int itemId) {
+        this.itemId = itemId;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemList{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", shopValue=" + shopValue +
+                ", lowAlch=" + lowAlch +
+                ", highAlch=" + highAlch +
+                ", bonuses=" + Arrays.toString(Arrays.copyOf(bonuses, 10)) +
+                '}';
+    }
 }
