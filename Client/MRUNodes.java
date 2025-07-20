@@ -1,13 +1,12 @@
 // Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) 
+// Decompiler options: packimports(3)
 
 import sign.signlink;
 
 public final class MRUNodes {
 
-    public MRUNodes(int i)
-    {
+    public MRUNodes(int i) {
         emptyNodeSub = new NodeSub();
         nodeSubList = new NodeSubList();
         initialCount = i;
@@ -15,61 +14,49 @@ public final class MRUNodes {
         nodeCache = new NodeCache();
     }
 
-    public NodeSub insertFromCache(long l)
-    {
+    public NodeSub insertFromCache(long l) {
         NodeSub nodeSub = (NodeSub) nodeCache.findNodeByID(l);
-        if(nodeSub != null)
-        {
+        if (nodeSub != null) {
             nodeSubList.insertHead(nodeSub);
         }
         return nodeSub;
     }
 
-    public void removeFromCache(NodeSub nodeSub, long l)
-    {
-        try
-        {
-            if(spaceLeft == 0)
-            {
-                NodeSub nodeSub_1 = nodeSubList.popTail();
-                nodeSub_1.unlink();
-                nodeSub_1.unlinkSub();
-                if(nodeSub_1 == emptyNodeSub)
-                {
-                    NodeSub nodeSub_2 = nodeSubList.popTail();
-                    nodeSub_2.unlink();
-                    nodeSub_2.unlinkSub();
+    public void removeFromCache(NodeSub nodeSub, long l) {
+        try {
+            if (spaceLeft == 0) {
+                NodeSub nodeSub1 = nodeSubList.popTail();
+                nodeSub1.unlink();
+                nodeSub1.unlinkSub();
+
+                if (nodeSub1 == emptyNodeSub) {
+                    NodeSub nodeSub2 = nodeSubList.popTail();
+                    nodeSub2.unlink();
+                    nodeSub2.unlinkSub();
                 }
-            } else
-            {
+            } else {
                 spaceLeft--;
             }
+
             nodeCache.removeFromCache(nodeSub, l);
             nodeSubList.insertHead(nodeSub);
-            return;
+        } catch (RuntimeException runtimeexception) {
+            signlink.reporterror("47547, " + nodeSub + ", " + l + ", " + (byte) 2 + ", " + runtimeexception.toString());
+            throw new RuntimeException();
         }
-        catch(RuntimeException runtimeexception)
-        {
-            signlink.reporterror("47547, " + nodeSub + ", " + l + ", " + (byte)2 + ", " + runtimeexception.toString());
-        }
-        throw new RuntimeException();
     }
 
-    public void unlinkAll()
-    {
-        do
-        {
+    public void unlinkAll() {
+        while (true) {
             NodeSub nodeSub = nodeSubList.popTail();
-            if(nodeSub != null)
-            {
+            if (nodeSub != null) {
                 nodeSub.unlink();
                 nodeSub.unlinkSub();
-            } else
-            {
+            } else {
                 spaceLeft = initialCount;
                 return;
             }
-        } while(true);
+        }
     }
 
     private final NodeSub emptyNodeSub;
