@@ -1,3 +1,4 @@
+
 package server.model.players.skills;
 
 import server.model.players.Client;
@@ -6,11 +7,11 @@ import server.Config;
 public class Crafting {
 
 	Client c;
-	
+
 	public Crafting(Client c) {
 		this.c = c;
 	}
-	
+
 	public int hideType = 0, makeId = 0, amount = 0, craftType = 0, exp = 0, index = 0;
 	public void resetCrafting() {
 		hideType = 0;
@@ -19,14 +20,14 @@ public class Crafting {
 		c.craftingLeather = false;
 		craftType = 0;
 	}
-	
+
 	public void handleChisel(int id1, int id2) {
 		if (id1 == 1755)
 			cutGem(id2);
 		else
 			cutGem(id1);	
 	}
-	
+
 	public int[][] gems = {{1623,1727,1,50},{1621,1729,27,68},{1619,1725,34,85},{1617,1731,43,108},{1631,1712,55,138},{6571,6585,67,168}};	
 	public void cutGem(int id) {
 		for (int j = 0; j < gems.length; j++) {
@@ -40,7 +41,7 @@ public class Crafting {
 			}		
 		}
 	}
-	
+
 	public void handleCraftingClick(int clickId) {
 		for (int j = 0; j < buttons.length; j++) {
 			if (buttons[j][0] == clickId) {
@@ -51,7 +52,7 @@ public class Crafting {
 			}
 		}	
 	}
-	
+
 	public void checkRequirements() {
 		for (int j = 0; j < expsAndLevels.length; j++) {
 			if (expsAndLevels[j][0] == hideType) {
@@ -68,7 +69,7 @@ public class Crafting {
 			}
 		}	
 	}
-	
+
 	public void craftHides(int id) {
 		for (int j = 0; j < amount; j++) {
 			if (!c.getItems().playerHasItem(id,craftType))
@@ -81,7 +82,7 @@ public class Crafting {
 		}
 		resetCrafting();
 	}
-	
+
 	public int getItemToAdd() {
 		if (craftType == 1) {
 			return vambs[index];
@@ -92,12 +93,12 @@ public class Crafting {
 		}	
 		return -1;
 	}
-	
+
 	public int[] vambs = {1065,2487,2489,2491};
 	public int[] chaps = {1099,2493,2495,2497};
 	public int[] bodys = {1135,2499,2501,2503};
-	
-	
+
+
 	public void handleLeather(int item1, int item2) {
 		if (item1 == 1733) {
 			openLeather(item2);
@@ -105,12 +106,12 @@ public class Crafting {
 			openLeather(item1);
 		}
 	}
-	
+
 	public int[][] buttons = {{34185,1,1},{34184,1,5},{34183,1,10},{34182,1,27},{34189,2,1},{34188,2,5},{34187,2,10},{34186,2,27},{34193,3,1},{34192,3,5},{34191,3,10},{34190,3,27}};
-	
+
 	public int[][] expsAndLevels = {{1745,62,57},{2505,66,70},{2507,73,78},{2509,79,86}};
-	
-	
+
+
 	public void openLeather(int item) {
 		if (item == 1745) {
 			c.getPA().sendFrame164(8880); //green dhide
