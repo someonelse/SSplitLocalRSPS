@@ -1,47 +1,49 @@
 package server.world.map;
 
-public class Z
-{
+import java.util.Objects;
 
-    public Z(int futureX, int futureY, int height, int l)
-    {
-        x = futureX;
-        y = futureY;
-        KKLI = height;
-        s = l;
+public final class Z {
+
+    private final int x;
+    private final int y;
+    private final int height; // was KKLI
+    private final int s;      // typically level or subtype
+
+    public Z(int futureX, int futureY, int height, int s) {
+        this.x = futureX;
+        this.y = futureY;
+        this.height = height;
+        this.s = s;
     }
 
-    public final int hashCode()
-    {
-        int i = 1;
-        i = 31 * i + KKLI;
-        i = 31 * i + s;
-        i = 31 * i + x;
-        i = 31 * i + y;
-        return i;
+    @Override
+    public int hashCode() {
+        return Objects.hash(height, s, x, y);
     }
 
-    public final boolean equals(Object obj)
-    {
-        if(this == obj)
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if(obj == null)
+        if (!(obj instanceof Z))
             return false;
-        if(getClass() != obj.getClass())
-            return false;
-        Z z = (Z)obj;
-        if(KKLI != z.KKLI)
-            return false;
-        if(s != z.s)
-            return false;
-        if(x != z.x)
-            return false;
-        return y == z.y;
+        Z z = (Z) obj;
+        return height == z.height && s == z.s && x == z.x && y == z.y;
     }
 
-    public int x;
-    public int y;
-    public int KKLI;
-    public int s;
-}
+    public int getX() {
+        return x;
+    }
 
+    public int getY() {
+        return y;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getS() {
+        return s;
+    }
+}
