@@ -5,42 +5,39 @@ import server.model.players.PacketType;
 import server.util.Misc;
 
 /**
- * Item Click 2 Or Alternative Item Option 1
+ * Handles the second click action on an item in the inventory.
+ * Commonly used for alternative interactions like dismantling, inspecting, etc.
+ * 
+ * Proper stream reading implemented.
  * 
  * @author Ryan / Lmctruck30
- * 
- * Proper Streams
  */
-
 public class ItemClick2 implements PacketType {
 
-	@Override
-	public void processPacket(Client c, int packetType, int packetSize) {
-		int itemId = c.getInStream().readSignedWordA();
-		
-		if (!c.getItems().playerHasItem(itemId,1))
-			return;
+    @Override
+    public void processPacket(Client c, int packetType, int packetSize) {
+        int itemId = c.getInStream().readSignedWordA();
 
-		switch (itemId) {
-			case 11694:
+        // Safety check to ensure player actually has the item
+        if (!c.getItems().playerHasItem(itemId, 1)) {
+            return;
+        }
 
-				c.sendMessage("Dismantling has been disabled due to duping");
-			break;
-			case 11696:
-				c.sendMessage("Dismantling has been disabled due to duping");
-			break;
-			case 11698:
-				c.sendMessage("Dismantling has been disabled due to duping");
-			break;
-			case 11700:
-				c.sendMessage("Dismantling has been disabled due to duping");
-			break;
-		default:
-			if (c.playerRights == 3)
-				Misc.println(c.playerName+ " - Item3rdOption: "+itemId);
-			break;
-		}
+        // Handle special item interactions
+        switch (itemId) {
+            case 11694: // Armadyl godsword
+            case 11696: // Bandos godsword
+            case 11698: // Saradomin godsword
+            case 11700: // Zamorak godsword
+                c.sendMessage("Dismantling has been disabled due to duping.");
+                break;
 
-	}
-
+            default:
+                // Developer/Admin debug message
+                if (c.playerRights == 3) {
+                    Misc.println("DEBUG: " + c.playerName + " - Item2ndOption: " + itemId);
+                }
+                break;
+        }
+    }
 }
