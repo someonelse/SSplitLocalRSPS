@@ -1,11 +1,11 @@
 package server.world;
 
 public final class GameObject {
-    private int id;
-    private int type;
-    private int x;
-    private int y;
-    private int face;
+    private final int id;
+    private final int type;
+    private final int x;
+    private final int y;
+    private final int face;
 
     public GameObject(int id, int type, int x, int y, int face) {
         this.id = id;
@@ -15,23 +15,23 @@ public final class GameObject {
         this.face = face;
     }
 
-    public int id() {
+    public int getId() {
         return id;
     }
 
-    public int type() {
+    public int getType() {
         return type;
     }
 
-    public int x() {
+    public int getX() {
         return x;
     }
 
-    public int y() {
+    public int getY() {
         return y;
     }
 
-	public int getFace() {
-		return face;
-	}
+    public int getFace() {
+        return face;
+    }
 }
