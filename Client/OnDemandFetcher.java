@@ -690,3 +690,4 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
     private byte[] modelIndices;
     private int loopCycle;
 }
+
