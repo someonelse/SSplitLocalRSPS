@@ -624,9 +624,3 @@ public class Commands implements PacketType {
 		}
 	}
 }
-
-
-
-
-
-
