@@ -4,21 +4,21 @@ import server.model.players.Client;
 import server.model.players.PacketType;
 
 /**
- * Move Items
- **/
+ * Handles item movement between slots in a container (e.g., inventory, bank, equipment).
+ */
 public class MoveItems implements PacketType {
 
-	@Override
-	public void processPacket(Client c, int packetType, int packetSize) {
-		int somejunk = c.getInStream().readUnsignedWordA(); //junk
-		int itemFrom =  c.getInStream().readUnsignedWordA();// slot1
-		int itemTo = (c.getInStream().readUnsignedWordA() -128);// slot2
-		//c.sendMessage("junk: " + somejunk);
-		if (c.inTrade)
-		{
-			return;
-		}	
+    @Override
+    public void processPacket(Client c, int packetType, int packetSize) {
+        int containerId = c.getInStream().readUnsignedWordA(); // Typically used to determine source container
+        int itemFrom = c.getInStream().readUnsignedWordA();    // Original slot index
+        int itemTo = c.getInStream().readUnsignedWordA() - 128; // Destination slot index (with offset correction)
 
-		c.getItems().moveItems(itemFrom, itemTo, somejunk);
-	}
+        // Prevent item rearrangement while trading
+        if (c.inTrade) {
+            return;
+        }
+
+        c.getItems().moveItems(itemFrom, itemTo, containerId);
+    }
 }
