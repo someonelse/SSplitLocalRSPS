@@ -1,50 +1,48 @@
 package server.world.map;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
-public class C
-{
+public class C {
 
-    public C(ArrayList arraylist, int i)
-    {
-        I = new ArrayList();
-        I.clear();
-        Z = i;
-        int j;
-        for(Iterator iterator = arraylist.iterator(); iterator.hasNext(); I.add(Integer.valueOf(j)))
-            j = ((Integer)iterator.next()).intValue();
+    // Store the directions/types for this cell
+    public final List<Integer> I;
+    public final int Z;
 
+    // Constructor expects a list of directions/types and a property value
+    public C(List<Integer> list, int i) {
+        this.I = new ArrayList<>();
+        if (list != null) {
+            this.I.addAll(list);
+        }
+        this.Z = i;
     }
 
-    public final int hashCode()
-    {
-        int i = 1;
-        i = 31 * i + (I != null ? I.hashCode() : 0);
-        return i;
-    }
-
-    public final boolean equals(Object obj)
-    {
-        if(this == obj)
-            return true;
-        if(obj == null)
-            return false;
-        if(getClass() != obj.getClass())
-            return false;
-        C c = (C)obj;
-        if(I == null)
-        {
-            if(c.I != null)
-                return false;
-        } else
-        if(!I.equals(c.I))
-            return false;
-        return true;
-    }
-
+    // Legacy compatibility constructor (accepts raw ArrayList, unchecked)
     @SuppressWarnings("unchecked")
-	public ArrayList I;
-    public int Z;
-}
+    public C(ArrayList arraylist, int i) {
+        this.I = new ArrayList<>();
+        if (arraylist != null) {
+            for (Object obj : arraylist) {
+                if (obj instanceof Integer) {
+                    this.I.add((Integer) obj);
+                }
+            }
+        }
+        this.Z = i;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(I);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof C)) return false;
+        C other = (C) obj;
+        return Objects.equals(I, other.I);
+    }
+}
