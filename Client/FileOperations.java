@@ -2,46 +2,49 @@ import java.io.*;
 
 public class FileOperations {
 
-    public FileOperations()  {
-    }
-
-    public static final byte[] ReadFile(String s) {
-        try  {
-            File file = new File(s);
-            int i = (int)file.length();
-            byte abyte0[] = new byte[i];
-            DataInputStream datainputstream = new DataInputStream(new BufferedInputStream(new FileInputStream(s)));
-            datainputstream.readFully(abyte0, 0, i);
-            datainputstream.close();
-            TotalRead++;
-            return abyte0;
-        } catch(Exception exception) {
-        }
-        return null;
-    }
-
-    public static final void WriteFile(String s, byte abyte0[]) {
-        try {
-            (new File((new File(s)).getParent())).mkdirs();
-            FileOutputStream fileoutputstream = new FileOutputStream(s);
-            fileoutputstream.write(abyte0, 0, abyte0.length);
-            fileoutputstream.close();
-            TotalWrite++;
-            CompleteWrite++;
-        }  catch(Throwable throwable) {
-            System.out.println((new StringBuilder()).append("Write Error: ").append(s).toString());
-        }
-    }
-	
-	public static boolean FileExists(String file) {
-		File f = new File(file);
-		if(f.exists())
-			return true;
-		else
-			return false;
+	public FileOperations() {
 	}
 
-    public static int TotalRead = 0;
-    public static int TotalWrite = 0;
-    public static int CompleteWrite = 0;
+	public static int TotalRead = 0;
+	public static int TotalWrite = 0;
+	public static int CompleteWrite = 0;
+
+	public static final byte[] ReadFile(String s) {
+		try {
+			File file = new File(s);
+			int length = (int) file.length();
+			byte[] data = new byte[length];
+			try (DataInputStream input = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
+				input.readFully(data, 0, length);
+			}
+			TotalRead++;
+			return data;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static final void WriteFile(String s, byte[] data) {
+		try {
+			File file = new File(s);
+			File parentDir = file.getParentFile();
+			if (parentDir != null) {
+				parentDir.mkdirs();
+			}
+			try (FileOutputStream output = new FileOutputStream(file)) {
+				output.write(data, 0, data.length);
+			}
+			TotalWrite++;
+			CompleteWrite++;
+		} catch (Throwable t) {
+			System.out.println("Write Error: " + s);
+			t.printStackTrace();
+		}
+	}
+
+	public static boolean FileExists(String file) {
+		File f = new File(file);
+		return f.exists();
+	}
 }
