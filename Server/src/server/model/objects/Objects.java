@@ -1,17 +1,15 @@
 package server.model.objects;
 
-
 public class Objects {
 
-	public int objectId;
-	public int objectX;
-	public int objectY;
-	public int objectHeight;
-	public int objectFace;
-	public int objectType;
-	public int objectTicks;
-	
-	
+	private final int objectId;
+	private final int objectX;
+	private final int objectY;
+	private final int objectHeight;
+	private final int objectFace;
+	private final int objectType;
+	private final int objectTicks;
+
 	public Objects(int id, int x, int y, int height, int face, int type, int ticks) {
 		this.objectId = id;
 		this.objectX = x;
@@ -21,31 +19,32 @@ public class Objects {
 		this.objectType = type;
 		this.objectTicks = ticks;
 	}
-	
 
 	public int getObjectId() {
-		return this.objectId;
+		return objectId;
 	}
-	
+
 	public int getObjectX() {
-		return this.objectX;
+		return objectX;
 	}
-	
+
 	public int getObjectY() {
-		return this.objectY;
+		return objectY;
 	}
-	
+
 	public int getObjectHeight() {
-		return this.objectHeight;
+		return objectHeight;
 	}
-	
+
 	public int getObjectFace() {
-		return this.objectFace;
+		return objectFace;
 	}
-	
+
 	public int getObjectType() {
-		return this.objectType;
+		return objectType;
 	}
-	
-	
+
+	public int getObjectTicks() {
+		return objectTicks;
+	}
 }
