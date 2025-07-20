@@ -1,7 +1,7 @@
 package server.model.players;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,14 +10,11 @@ import java.io.IOException;
 import server.Server;
 import server.util.Misc;
 
-public class PlayerSave
-{
+public class PlayerSave {
 
-	
-	
 	/**
-	*Loading
-	**/
+	 * Loading
+	 */
 	public static int loadGame(Client p, String playerName, String playerPass) {
 		String line = "";
 		String token = "";
@@ -27,188 +24,200 @@ public class PlayerSave
 		int ReadMode = 0;
 		BufferedReader characterfile = null;
 		boolean File1 = false;
-		
+
 		try {
-			characterfile = new BufferedReader(new FileReader("./Data/characters/"+playerName+".txt"));
+			characterfile = new BufferedReader(new FileReader("./Data/characters/" + playerName + ".txt"));
 			File1 = true;
-		} catch(FileNotFoundException fileex1) {
+		} catch (FileNotFoundException fileex1) {
 		}
-		
+
 		if (File1) {
-			//new File ("./characters/"+playerName+".txt");
+			// new File ("./characters/"+playerName+".txt");
 		} else {
-			Misc.println(playerName+": character file not found.");
+			Misc.println(playerName + ": character file not found.");
 			p.newPlayer = false;
 			return 0;
 		}
 		try {
 			line = characterfile.readLine();
-		} catch(IOException ioexception) {
-			Misc.println(playerName+": error loading file.");
+		} catch (IOException ioexception) {
+			Misc.println(playerName + ": error loading file.");
 			return 3;
 		}
-		while(EndOfFile == false && line != null) {
+		while (!EndOfFile && line != null) {
 			line = line.trim();
 			int spot = line.indexOf("=");
 			if (spot > -1) {
-				token = line.substring(0, spot);
-				token = token.trim();
-				token2 = line.substring(spot + 1);
-				token2 = token2.trim();
+				token = line.substring(0, spot).trim();
+				token2 = line.substring(spot + 1).trim();
 				token3 = token2.split("\t");
 				switch (ReadMode) {
-				case 1:
-					 if (token.equals("character-password")) {
-						if (playerPass.equalsIgnoreCase(token2) || Misc.basicEncrypt(playerPass).equals(token2)) {
-							playerPass = token2;
-						} else {
-							return 3;
+					case 1:
+						if (token.equals("character-password")) {
+							if (playerPass.equalsIgnoreCase(token2) || Misc.basicEncrypt(playerPass).equals(token2)) {
+								playerPass = token2;
+							} else {
+								return 3;
+							}
 						}
-					}
-					break;
-				case 2:
-					if (token.equals("character-height")) {
-						p.heightLevel = Integer.parseInt(token2);
-					} else if (token.equals("character-posx")) {
-						p.teleportToX = (Integer.parseInt(token2) <= 0 ? 3210 : Integer.parseInt(token2));
-					} else if (token.equals("character-posy")) {
-						p.teleportToY = (Integer.parseInt(token2) <= 0 ? 3424 : Integer.parseInt(token2));
-					} else if (token.equals("character-rights")) {
-						p.playerRights = Integer.parseInt(token2);
-					} else if (token.equals("tutorial-progress")) {
-						p.tutorial = Integer.parseInt(token2);	
-					} else if (token.equals("crystal-bow-shots")) {
-						p.crystalBowArrowCount = Integer.parseInt(token2);
-					} else if (token.equals("skull-timer")) {
-						p.skullTimer = Integer.parseInt(token2);
-					} else if (token.equals("magic-book")) {
-						p.playerMagicBook = Integer.parseInt(token2);
-					} else if (token.equals("brother-info")) {
-						p.barrowsNpcs[Integer.parseInt(token3[0])][1] = Integer.parseInt(token3[1]);
-					 } else if (token.equals("special-amount")) {
-						p.specAmount = Double.parseDouble(token2);	
-					 } else if (token.equals("selected-coffin")) {
-						p.randomCoffin = Integer.parseInt(token2);	
-					} else if (token.equals("barrows-killcount")) {
-						p.pkPoints = Integer.parseInt(token2);							
-					} else if (token.equals("teleblock-length")) {
-						p.teleBlockDelay = System.currentTimeMillis();
-						p.teleBlockLength = Integer.parseInt(token2);							
-					} else if (token.equals("pc-points")) {
-						p.pcPoints = Integer.parseInt(token2);	
-					} else if (token.equals("isDonator")) {
-						p.isDonator = Integer.parseInt(token2);					
-					} else if (token.equals("slayerTask")) {
-						p.slayerTask = Integer.parseInt(token2);					
-					} else if (token.equals("taskAmount")) {
-						p.taskAmount = Integer.parseInt(token2);					
-					} else if (token.equals("magePoints")) {
-						p.magePoints = Integer.parseInt(token2);					
-					} else if (token.equals("autoRet")) {
-						p.autoRet = Integer.parseInt(token2);					
-					} else if (token.equals("barrowskillcount")) {
-						p.barrowsKillCount = Integer.parseInt(token2);
-					} else if (token.equals("flagged")) {
-						p.accountFlagged = Boolean.parseBoolean(token2);
-					} else if (token.equals("wave")) {
-						p.waveId = Integer.parseInt(token2);
-					} else if (token.equals("void")) {
-						for (int j = 0; j < token3.length; j++) {
-							p.voidStatus[j] = Integer.parseInt(token3[j]);						
+						break;
+					case 2:
+						if (token.equals("character-height")) {
+							p.heightLevel = Integer.parseInt(token2);
+						} else if (token.equals("character-posx")) {
+							p.teleportToX = (Integer.parseInt(token2) <= 0 ? 3210 : Integer.parseInt(token2));
+						} else if (token.equals("character-posy")) {
+							p.teleportToY = (Integer.parseInt(token2) <= 0 ? 3424 : Integer.parseInt(token2));
+						} else if (token.equals("character-rights")) {
+							p.playerRights = Integer.parseInt(token2);
+						} else if (token.equals("tutorial-progress")) {
+							p.tutorial = Integer.parseInt(token2);
+						} else if (token.equals("crystal-bow-shots")) {
+							p.crystalBowArrowCount = Integer.parseInt(token2);
+						} else if (token.equals("skull-timer")) {
+							p.skullTimer = Integer.parseInt(token2);
+						} else if (token.equals("magic-book")) {
+							p.playerMagicBook = Integer.parseInt(token2);
+						} else if (token.equals("brother-info")) {
+							p.barrowsNpcs[Integer.parseInt(token3[0])][1] = Integer.parseInt(token3[1]);
+						} else if (token.equals("special-amount")) {
+							p.specAmount = Double.parseDouble(token2);
+						} else if (token.equals("selected-coffin")) {
+							p.randomCoffin = Integer.parseInt(token2);
+						} else if (token.equals("barrows-killcount")) {
+							p.pkPoints = Integer.parseInt(token2);
+						} else if (token.equals("teleblock-length")) {
+							p.teleBlockDelay = System.currentTimeMillis();
+							p.teleBlockLength = Integer.parseInt(token2);
+						} else if (token.equals("pc-points")) {
+							p.pcPoints = Integer.parseInt(token2);
+						} else if (token.equals("isDonator")) {
+							p.isDonator = Integer.parseInt(token2);
+						} else if (token.equals("slayerTask")) {
+							p.slayerTask = Integer.parseInt(token2);
+						} else if (token.equals("taskAmount")) {
+							p.taskAmount = Integer.parseInt(token2);
+						} else if (token.equals("magePoints")) {
+							p.magePoints = Integer.parseInt(token2);
+						} else if (token.equals("autoRet")) {
+							p.autoRet = Integer.parseInt(token2);
+						} else if (token.equals("barrowskillcount")) {
+							p.barrowsKillCount = Integer.parseInt(token2);
+						} else if (token.equals("flagged")) {
+							p.accountFlagged = Boolean.parseBoolean(token2);
+						} else if (token.equals("wave")) {
+							p.waveId = Integer.parseInt(token2);
+						} else if (token.equals("void")) {
+							for (int j = 0; j < token3.length; j++) {
+								p.voidStatus[j] = Integer.parseInt(token3[j]);
+							}
+						} else if (token.equals("gwkc")) {
+							p.killCount = Integer.parseInt(token2);
+						} else if (token.equals("fightMode")) {
+							p.fightMode = Integer.parseInt(token2);
 						}
-					} else if (token.equals("gwkc")) {
-						p.killCount = Integer.parseInt(token2);
-					} else if (token.equals("fightMode")) {
-						p.fightMode = Integer.parseInt(token2);
-					}
-					break;
-				case 3:
-					if (token.equals("character-equip")) {
-						p.playerEquipment[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
-						p.playerEquipmentN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
-					}
-					break;
-				case 4:
-					if (token.equals("character-look")) {
-						p.playerAppearance[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
-					} 
-					break;
-				case 5:
-					if (token.equals("character-skill")) {
-						p.playerLevel[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
-						p.playerXP[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
-					}
-					break;
-				case 6:
-					if (token.equals("character-item")) {
-						p.playerItems[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
-						p.playerItemsN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
-					}
-					break;
-				case 7:
-					if (token.equals("character-bank")) {
-						p.bankItems[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
-						p.bankItemsN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
-					}
-					break;
-				case 8:
-					 if (token.equals("character-friend")) {
-						p.friends[Integer.parseInt(token3[0])] = Long.parseLong(token3[1]);
-					} 
-					break;
-				case 9:
-					/* if (token.equals("character-ignore")) {
-						ignores[Integer.parseInt(token3[0])] = Long.parseLong(token3[1]);
-					} */
-					break;
+						break;
+					case 3:
+						if (token.equals("character-equip")) {
+							p.playerEquipment[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
+							p.playerEquipmentN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
+						}
+						break;
+					case 4:
+						if (token.equals("character-look")) {
+							p.playerAppearance[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
+						}
+						break;
+					case 5:
+						if (token.equals("character-skill")) {
+							p.playerLevel[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
+							p.playerXP[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
+						}
+						break;
+					case 6:
+						if (token.equals("character-item")) {
+							p.playerItems[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
+							p.playerItemsN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
+						}
+						break;
+					case 7:
+						if (token.equals("character-bank")) {
+							p.bankItems[Integer.parseInt(token3[0])] = Integer.parseInt(token3[1]);
+							p.bankItemsN[Integer.parseInt(token3[0])] = Integer.parseInt(token3[2]);
+						}
+						break;
+					case 8:
+						if (token.equals("character-friend")) {
+							p.friends[Integer.parseInt(token3[0])] = Long.parseLong(token3[1]);
+						}
+						break;
+					case 9:
+						/* if (token.equals("character-ignore")) {
+							ignores[Integer.parseInt(token3[0])] = Long.parseLong(token3[1]);
+						} */
+						break;
 				}
 			} else {
-				if (line.equals("[ACCOUNT]")) {		ReadMode = 1;
-				} else if (line.equals("[CHARACTER]")) {	ReadMode = 2;
-				} else if (line.equals("[EQUIPMENT]")) {	ReadMode = 3;
-				} else if (line.equals("[LOOK]")) {		ReadMode = 4;
-				} else if (line.equals("[SKILLS]")) {		ReadMode = 5;
-				} else if (line.equals("[ITEMS]")) {		ReadMode = 6;
-				} else if (line.equals("[BANK]")) {		ReadMode = 7;
-				} else if (line.equals("[FRIENDS]")) {		ReadMode = 8;
-				} else if (line.equals("[IGNORES]")) {		ReadMode = 9;
-				} else if (line.equals("[EOF]")) {		try { characterfile.close(); } catch(IOException ioexception) { } return 1;
+				if (line.equals("[ACCOUNT]")) {
+					ReadMode = 1;
+				} else if (line.equals("[CHARACTER]")) {
+					ReadMode = 2;
+				} else if (line.equals("[EQUIPMENT]")) {
+					ReadMode = 3;
+				} else if (line.equals("[LOOK]")) {
+					ReadMode = 4;
+				} else if (line.equals("[SKILLS]")) {
+					ReadMode = 5;
+				} else if (line.equals("[ITEMS]")) {
+					ReadMode = 6;
+				} else if (line.equals("[BANK]")) {
+					ReadMode = 7;
+				} else if (line.equals("[FRIENDS]")) {
+					ReadMode = 8;
+				} else if (line.equals("[IGNORES]")) {
+					ReadMode = 9;
+				} else if (line.equals("[EOF]")) {
+					try {
+						characterfile.close();
+					} catch (IOException ioexception) {}
+					return 1;
 				}
 			}
 			try {
 				line = characterfile.readLine();
-			} catch(IOException ioexception1) { EndOfFile = true; }
+			} catch (IOException ioexception1) {
+				EndOfFile = true;
+			}
 		}
-		try { characterfile.close(); } catch(IOException ioexception) { }
+		try {
+			characterfile.close();
+		} catch (IOException ioexception) {}
 		return 13;
 	}
-	
-	
-	
-	
+
 	/**
-	*Saving
-	**/
+	 * Saving
+	 */
 	public static boolean saveGame(Client p) {
-		if(!p.saveFile || p.newPlayer || !p.saveCharacter) {
-			//System.out.println("first");
+		if (!p.saveFile || p.newPlayer || !p.saveCharacter) {
+			// System.out.println("first");
 			return false;
 		}
-		if(p.playerName == null || Server.playerHandler.players[p.playerId] == null) {
-			//System.out.println("second");
+		if (p.playerName == null || Server.playerHandler.players[p.playerId] == null) {
+			// System.out.println("second");
 			return false;
 		}
 		p.playerName = p.playerName2;
-		int tbTime = (int)(p.teleBlockDelay - System.currentTimeMillis() + p.teleBlockLength);
-		if(tbTime > 300000 || tbTime < 0){
+		int tbTime = (int) (p.teleBlockDelay - System.currentTimeMillis() + p.teleBlockLength);
+		if (tbTime > 300000 || tbTime < 0) {
 			tbTime = 0;
 		}
-		
+
 		BufferedWriter characterfile = null;
 		try {
-			characterfile = new BufferedWriter(new FileWriter("./Data/characters/"+p.playerName+".txt"));
-			
-			/*ACCOUNT*/
+			characterfile = new BufferedWriter(new FileWriter("./Data/characters/" + p.playerName + ".txt"));
+
+			/* ACCOUNT */
 			characterfile.write("[ACCOUNT]", 0, 9);
 			characterfile.newLine();
 			characterfile.write("character-username = ", 0, 21);
@@ -218,8 +227,8 @@ public class PlayerSave
 			characterfile.write(p.playerPass, 0, p.playerPass.length());
 			characterfile.newLine();
 			characterfile.newLine();
-			
-			/*CHARACTER*/
+
+			/* CHARACTER */
 			characterfile.write("[CHARACTER]", 0, 11);
 			characterfile.newLine();
 			characterfile.write("character-height = ", 0, 19);
@@ -247,9 +256,10 @@ public class PlayerSave
 				characterfile.write("brother-info = ", 0, 15);
 				characterfile.write(Integer.toString(b), 0, Integer.toString(b).length());
 				characterfile.write("	", 0, 1);
-				characterfile.write(p.barrowsNpcs[b][1] <= 1 ? Integer.toString(0) : Integer.toString(p.barrowsNpcs[b][1]), 0, Integer.toString(p.barrowsNpcs[b][1]).length());
+				characterfile.write(p.barrowsNpcs[b][1] <= 1 ? Integer.toString(0) : Integer.toString(p.barrowsNpcs[b][1]), 0,
+						Integer.toString(p.barrowsNpcs[b][1]).length());
 				characterfile.newLine();
-			}	
+			}
 			characterfile.write("special-amount = ", 0, 17);
 			characterfile.write(Double.toString(p.specAmount), 0, Double.toString(p.specAmount).length());
 			characterfile.newLine();
@@ -300,8 +310,8 @@ public class PlayerSave
 			characterfile.write(toWrite);
 			characterfile.newLine();
 			characterfile.newLine();
-			
-			/*EQUIPMENT*/
+
+			/* EQUIPMENT */
 			characterfile.write("[EQUIPMENT]", 0, 11);
 			characterfile.newLine();
 			for (int i = 0; i < p.playerEquipment.length; i++) {
@@ -315,8 +325,8 @@ public class PlayerSave
 				characterfile.newLine();
 			}
 			characterfile.newLine();
-			
-			/*LOOK*/
+
+			/* LOOK */
 			characterfile.write("[LOOK]", 0, 6);
 			characterfile.newLine();
 			for (int i = 0; i < p.playerAppearance.length; i++) {
@@ -327,8 +337,8 @@ public class PlayerSave
 				characterfile.newLine();
 			}
 			characterfile.newLine();
-			
-			/*SKILLS*/
+
+			/* SKILLS */
 			characterfile.write("[SKILLS]", 0, 8);
 			characterfile.newLine();
 			for (int i = 0; i < p.playerLevel.length; i++) {
@@ -341,8 +351,8 @@ public class PlayerSave
 				characterfile.newLine();
 			}
 			characterfile.newLine();
-			
-			/*ITEMS*/
+
+			/* ITEMS */
 			characterfile.write("[ITEMS]", 0, 7);
 			characterfile.newLine();
 			for (int i = 0; i < p.playerItems.length; i++) {
@@ -357,8 +367,8 @@ public class PlayerSave
 				}
 			}
 			characterfile.newLine();
-			
-		/*BANK*/
+
+			/* BANK */
 			characterfile.write("[BANK]", 0, 6);
 			characterfile.newLine();
 			for (int i = 0; i < p.bankItems.length; i++) {
@@ -373,8 +383,8 @@ public class PlayerSave
 				}
 			}
 			characterfile.newLine();
-			
-		/*FRIENDS*/
+
+			/* FRIENDS */
 			characterfile.write("[FRIENDS]", 0, 9);
 			characterfile.newLine();
 			for (int i = 0; i < p.friends.length; i++) {
@@ -387,9 +397,10 @@ public class PlayerSave
 				}
 			}
 			characterfile.newLine();
-			
-		/*IGNORES*/
-			/*characterfile.write("[IGNORES]", 0, 9);
+
+			/* IGNORES */
+			/*
+			characterfile.write("[IGNORES]", 0, 9);
 			characterfile.newLine();
 			for (int i = 0; i < ignores.length; i++) {
 				if (ignores[i] > 0) {
@@ -400,18 +411,19 @@ public class PlayerSave
 					characterfile.newLine();
 				}
 			}
-			characterfile.newLine();*/
-		/*EOF*/
+			characterfile.newLine();
+			*/
+
+			/* EOF */
 			characterfile.write("[EOF]", 0, 5);
 			characterfile.newLine();
 			characterfile.newLine();
 			characterfile.close();
-		} catch(IOException ioexception) {
-			Misc.println(p.playerName+": error writing file.");
+		} catch (IOException ioexception) {
+			Misc.println(p.playerName + ": error writing file.");
 			return false;
 		}
 		return true;
-	}	
-	
+	}
 
 }
