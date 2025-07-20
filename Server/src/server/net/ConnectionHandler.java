@@ -9,54 +9,50 @@ import server.model.players.Client;
 
 public class ConnectionHandler implements IoHandler {
 
-	@Override
-	public void exceptionCaught(IoSession arg0, Throwable arg1)
-			throws Exception {
-		// TODO Auto-generated method stub
+    @Override
+    public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+        // Optionally, log exceptions here if needed
+    }
 
-	}
+    @Override
+    public void messageReceived(IoSession session, Object message) throws Exception {
+        if (session.getAttachment() != null) {
+            Client plr = (Client) session.getAttachment();
+            plr.queueMessage((Packet) message);
+        }
+    }
 
-	@Override
-	public void messageReceived(IoSession arg0, Object arg1) throws Exception {
-		if(arg0.getAttachment() != null) {
-			Client plr = (Client) arg0.getAttachment();
-			plr.queueMessage((Packet) arg1);
-		}
-	}
+    @Override
+    public void messageSent(IoSession session, Object message) throws Exception {
+        // Can be used for logging or message tracking if needed
+    }
 
-	@Override
-	public void messageSent(IoSession arg0, Object arg1) throws Exception {
-		// TODO Auto-generated method stub
+    @Override
+    public void sessionClosed(IoSession session) throws Exception {
+        if (session.getAttachment() != null) {
+            Client plr = (Client) session.getAttachment();
+            plr.disconnected = true;
+        }
+        HostList.getHostList().remove(session);
+    }
 
-	}
+    @Override
+    public void sessionCreated(IoSession session) throws Exception {
+        if (!HostList.getHostList().add(session)) {
+            session.close();
+        } else {
+            session.setAttribute("inList", Boolean.TRUE);
+        }
+    }
 
-	@Override
-	public void sessionClosed(IoSession arg0) throws Exception {
-		if(arg0.getAttachment() != null) {
-			Client plr = (Client) arg0.getAttachment();
-			plr.disconnected = true;
-		}
-		HostList.getHostList().remove(arg0);
-	}
+    @Override
+    public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
+        session.close();
+    }
 
-	@Override
-	public void sessionCreated(IoSession arg0) throws Exception {
-		if(!HostList.getHostList().add(arg0)) {
-			arg0.close();
-		} else {
-			arg0.setAttribute("inList", Boolean.TRUE);
-		}
-	}
-
-	@Override
-	public void sessionIdle(IoSession arg0, IdleStatus arg1) throws Exception {
-		arg0.close();
-	}
-
-	@Override
-	public void sessionOpened(IoSession arg0) throws Exception {
-		arg0.setIdleTime(IdleStatus.BOTH_IDLE, 60);
-		arg0.getFilterChain().addLast("protocolFilter", new ProtocolCodecFilter(new CodecFactory()));
-	}
-
+    @Override
+    public void sessionOpened(IoSession session) throws Exception {
+        session.setIdleTime(IdleStatus.BOTH_IDLE, 60);
+        session.getFilterChain().addLast("protocolFilter", new ProtocolCodecFilter(new CodecFactory()));
+    }
 }
