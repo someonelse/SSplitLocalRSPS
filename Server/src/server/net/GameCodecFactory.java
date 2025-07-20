@@ -9,38 +9,23 @@ import server.util.ISAACRandomGen;
 /**
  * Provides access to the encoders and decoders for the 508 protocol.
  * @author Graham
- *
  */
 public class GameCodecFactory implements ProtocolCodecFactory {
-	
-	/**
-	 * The encoder.
-	 */
-	private ProtocolEncoder encoder = new RS2ProtocolEncoder();
-	
-	/**
-	 * The decoder.
-	 */
-	private ProtocolDecoder decoder;
-	
-	public GameCodecFactory(ISAACRandomGen inC) {
-		decoder = new RS2ProtocolDecoder(inC);
-	}
 
-	@Override
-	/**
-	 * Get the encoder.
-	 */
-	public ProtocolEncoder getEncoder() throws Exception {
-		return encoder;
-	}
+    private final ProtocolEncoder encoder = new RS2ProtocolEncoder();
+    private final ProtocolDecoder decoder;
 
-	@Override
-	/**
-	 * Get the decoder.
-	 */
-	public ProtocolDecoder getDecoder() throws Exception {
-		return decoder;
-	}
+    public GameCodecFactory(ISAACRandomGen inC) {
+        this.decoder = new RS2ProtocolDecoder(inC);
+    }
 
+    @Override
+    public ProtocolEncoder getEncoder() {
+        return encoder;
+    }
+
+    @Override
+    public ProtocolDecoder getDecoder() {
+        return decoder;
+    }
 }
