@@ -1,18 +1,15 @@
 package server.model.items;
 
-
-
 public class GroundItem {
-	
-	public int itemId;
-	public int itemX;
-	public int itemY;
-	public int itemAmount;
-	public int itemController;
-	public int hideTicks;
-	public int removeTicks;
-	public String ownerName;
-	
+
+	private final int itemId;
+	private final int itemX;
+	private final int itemY;
+	private final int itemAmount;
+	private final int itemController;
+	private final int hideTicks;
+	private int removeTicks;
+	private final String ownerName;
 
 	public GroundItem(int id, int x, int y, int amount, int controller, int hideTicks, String name) {
 		this.itemId = id;
@@ -23,34 +20,40 @@ public class GroundItem {
 		this.hideTicks = hideTicks;
 		this.ownerName = name;
 	}
-	
+
 	public int getItemId() {
-		return this.itemId;
+		return itemId;
 	}
-	
-	public int getItemX(){
-		return this.itemX;
+
+	public int getItemX() {
+		return itemX;
 	}
-	
-	public int getItemY(){
-		return this.itemY;
+
+	public int getItemY() {
+		return itemY;
 	}
-	
-	public int getItemAmount(){
-		return this.itemAmount;
+
+	public int getItemAmount() {
+		return itemAmount;
 	}
-	
-	public int getItemController(){
-		return this.itemController;
+
+	public int getItemController() {
+		return itemController;
 	}
-	
+
+	public int getHideTicks() {
+		return hideTicks;
+	}
+
+	public int getRemoveTicks() {
+		return removeTicks;
+	}
+
+	public void setRemoveTicks(int removeTicks) {
+		this.removeTicks = removeTicks;
+	}
+
 	public String getName() {
-		return this.ownerName;
+		return ownerName;
 	}
-	
-	
-
-	
-
-	
 }
