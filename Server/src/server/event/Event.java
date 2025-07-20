@@ -1,11 +1,9 @@
 package server.event;
 
-
 /**
  * A simple interface for an event.
  * 
  * @author Graham
- * 
  */
 public interface Event {
 
@@ -16,6 +14,5 @@ public interface Event {
 	 *            The event container, so the event can dynamically change the
 	 *            tick time etc.
 	 */
-	public void execute(EventContainer container);
-
+	void execute(EventContainer container);
 }
