@@ -6,70 +6,70 @@ import server.util.ScriptManager;
 
 public class TaskFactory {
 
-	public static Task getDelayedTask(final String callbackFunction,
-			final Client client, final int actionX, final int actionY) {
-		Task task = new Task(client, false) {
-			@Override
-			public void run() {
-				synchronized (PlayerHandler.players) {
-					ScriptManager.callFunc(callbackFunction, client, actionX,
-							actionY);
-				}
-			}
-		};
-		return task;
-	}
+    public static Task getDelayedTask(final String callbackFunction,
+                                      final Client client,
+                                      final int actionX,
+                                      final int actionY) {
+        return new Task(client, false) {
+            @Override
+            public void run() {
+                synchronized (PlayerHandler.players) {
+                    ScriptManager.callFunc(callbackFunction, client, actionX, actionY);
+                }
+            }
+        };
+    }
 
-	public static Task getDelayedTask(final String callbackFunction,
-			final Client client, final int actionID, final int actionX,
-			final int actionY) {
-		Task task = new Task(client, false) {
-			@Override
-			public void run() {
-				synchronized (PlayerHandler.players) {
-					ScriptManager.callFunc(callbackFunction, client, actionID,
-							actionX, actionY);
-				}
-			}
-		};
-		return task;
-	}
+    public static Task getDelayedTask(final String callbackFunction,
+                                      final Client client,
+                                      final int actionID,
+                                      final int actionX,
+                                      final int actionY) {
+        return new Task(client, false) {
+            @Override
+            public void run() {
+                synchronized (PlayerHandler.players) {
+                    ScriptManager.callFunc(callbackFunction, client, actionID, actionX, actionY);
+                }
+            }
+        };
+    }
 
-	public static Task getDelayedGlobalTask(final String callbackFunction,
-			final int actionID, final int actionX, final int actionY) {
-		Task task = new Task(null, true) {
-			@Override
-			public void run() {
-				synchronized (PlayerHandler.players) {
-					ScriptManager.callFunc(callbackFunction, actionID, actionX,
-							actionY);
-				}
-			}
-		};
-		return task;
-	}
+    public static Task getDelayedGlobalTask(final String callbackFunction,
+                                            final int actionID,
+                                            final int actionX,
+                                            final int actionY) {
+        return new Task(null, true) {
+            @Override
+            public void run() {
+                synchronized (PlayerHandler.players) {
+                    ScriptManager.callFunc(callbackFunction, actionID, actionX, actionY);
+                }
+            }
+        };
+    }
 
-	protected static class Task implements Runnable {
+    // Abstract task structure for scheduling
+    public static class Task implements Runnable {
+        private final Client client;
+        private final boolean global;
 
-		private Client client;
-		private boolean global;
+        public Task(Client client, boolean global) {
+            this.client = client;
+            this.global = global;
+        }
 
-		public Task(Client client, boolean global) {
-			this.client = client;
-			this.global = global;
-		}
+        @Override
+        public void run() {
+            // To be overridden
+        }
 
-		public void run() {
-		}
+        public Client getClient() {
+            return client;
+        }
 
-		public Client getClient() {
-			return client;
-		}
-
-		public boolean isGlobal() {
-			return global;
-		}
-
-	}
-
+        public boolean isGlobal() {
+            return global;
+        }
+    }
 }
